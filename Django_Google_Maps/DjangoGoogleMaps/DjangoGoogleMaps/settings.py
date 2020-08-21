@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 
+from django.urls import reverse_lazy
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -38,14 +40,83 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_swagger',
+    'rest_framework.authtoken',
     
     # libraries
     'graphene_django',
+    'drf_yasg',
+    'django_filters',
 ]
 
 GRAPHENE = {
     
     'SCHEMA': 'customers.schema.schema'
+}
+
+REST_FRAMEWORK = {
+    
+    'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchema',
+    
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+         #'rest_framework.authentication.TokenAuthentication',
+         'rest_framework.authentication.SessionAuthentication',
+    )
+    
+}
+
+SWAGGER_SETTINGS = {
+    
+    'LOGIN_URL': reverse_lazy('admin:login'),
+    'LOGOUT_URL': '/admin/logout',
+    'PERSIST_AUTH': True,
+    'REFETCH_SCHEMA_WITH_AUTH': True,
+    'REFETCH_SCHEMA_ON_LOGOUT': True,
+    
+    'VALIDATOR_URL': 'http://localhost:8189',
+    
+    'DEFAULT_INFO': 'swagger_info.swagger_info',
+    
+    'DEFAULT_GENERATOR_CLASS': 'drf_yasg.generators.OpenAPISchemaGenerator',
+    "DEFAULT_AUTO_SCHEMA_CLASS": "drf_yasg.inspectors.SwaggerAutoSchema",
+    
+    "DEFAULT_PAGINATOR_INSPECTORS": [
+        #'DjangoGoogleMaps.inspectors.UnknownPaginatorInspector',
+        'drf_yasg.inspectors.DjangoRestResponsePagination',
+        'drf_yasg.inspectors.CoreAPICompatInspector',
+    ],
+    
+    "DEFAULT_FIELD_INSPECTORS": [
+        'drf_yasg.inspectors.CamelCaseJSONFilter',
+        'drf_yasg.inspectors.ReferencingSerializerInspector',
+        'drf_yasg.inspectors.RelatedFieldInspector',
+        'drf_yasg.inspectors.ChoiceFieldInspector',
+        'drf_yasg.inspectors.FileFieldInspector',
+        'drf_yasg.inspectors.DictFieldInspector',
+        'drf_yasg.inspectors.JSONFieldInspector',
+        'drf_yasg.inspectors.HiddenFieldInspector',
+        'drf_yasg.inspectors.RecursiveFieldInspector',
+        'drf_yasg.inspectors.SerializerMethodFieldInspector',
+        'drf_yasg.inspectors.SimpleFieldInspector',
+        'drf_yasg.inspectors.StringDefaultFieldInspector',
+    ],
+    
+    "DEFAULT_FILTER_INSPECTORS": ['drf_yasg.inspectors.CoreAPICompatInspector'], 
+    
+    'SUPPORTED_SUBMIT_METHODS': ['get'],
+    
+    'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },}
+    
+}
+
+
+REDOC_SETTINGS = {
+    'SPEC_URL': ('schema-json', {'format': '.json'}),
 }
 
 MIDDLEWARE = [
@@ -56,9 +127,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'drf_yasg.middleware.SwaggerExceptionMiddleware',
 ]
 
-ROOT_URLCONF = 'DjangoGoogleMaps.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -75,6 +147,12 @@ TEMPLATES = [
         },
     },
 ]
+
+TEMPLATE_LOADERS = (
+
+'django.template.loaders.eggs.Loader',
+
+)
 
 WSGI_APPLICATION = 'DjangoGoogleMaps.wsgi.application'
 

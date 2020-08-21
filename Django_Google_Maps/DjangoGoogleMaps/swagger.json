@@ -1,0 +1,34 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Snippets API",
+        "description": "Description",
+        "termsOfService": "https://www.google.com/policies/terms/",
+        "contact": {
+            "email": "contact@snippets.local"
+        },
+        "license": {
+            "name": "BSD License"
+        },
+        "version": "v1"
+    },
+    "basePath": "/",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "Basic": {
+            "type": "basic"
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ],
+    "paths": {},
+    "definitions": {}
+}
