@@ -1,0 +1,29 @@
+version: '3'
+
+services: 
+  db:
+    build: ./build/mysql/ 
+    volumes:
+      - ./configs/mysql/data:/docker-entrypoint-initdb.d
+    image: mysql:5.7
+    ports:
+      - '3306:3306'
+    environment:
+       MYSQL_DATABASE: 'my-app-db'
+       MYSQL_USER: 'root'
+       MYSQL_PASSWORD: 'password'
+       MYSQL_ROOT_PASSWORD: 'password'
+
+  web:
+    build: ./build/web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    links: 
+      - db
+    environment:
+      GOOGLE_API_KEY: 'AIzaSyDRSots26JC1H9o8BtnR9n2SXBu9ymtlpk' 
