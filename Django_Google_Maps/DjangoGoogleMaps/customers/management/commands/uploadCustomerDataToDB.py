@@ -28,7 +28,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
-        reader = csv.DictReader(open(PROJECT_ROOT + '\customers.csv'))
+        reader = csv.DictReader(open(PROJECT_ROOT + '/customers.csv'))
         
         customers = list(reader)
         

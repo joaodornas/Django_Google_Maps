@@ -14,6 +14,9 @@ from pathlib import Path
 
 from django.urls import reverse_lazy
 
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -27,7 +30,7 @@ SECRET_KEY = 'z_)t(u0+49x0vzb-z6y&7irhn8^dun#@+!d8d8aap45d)em*^b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -66,14 +69,13 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'drf_yasg.middleware.SwaggerExceptionMiddleware',
+    #'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'urls'
@@ -109,10 +111,10 @@ WSGI_APPLICATION = 'DjangoGoogleMaps.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'CUSTOMERS',
+        'NAME': 'customers',
         'USER': 'root',
-        'PASSWORD': 'H@rdQu@le',
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'password',
+        'HOST': 'djangogooglemaps_db_1',
         'PORT': '3306',
     }
 }
