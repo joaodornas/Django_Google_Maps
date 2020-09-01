@@ -25,4 +25,4 @@ services:
     links: 
       - db
     environment:
-      GOOGLE_API_KEY: 'AIzaSyDRSots26JC1H9o8BtnR9n2SXBu9ymtlpk' 
+      GOOGLE_API_KEY: '<your key here>' 
